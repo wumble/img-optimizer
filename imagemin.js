@@ -8,7 +8,7 @@ const del = require('del');
 (async () => {
   await del('./dist/**/*');
 
-  const files = await imagemin(['src/**/*.{JPG,jpg,PNG,png,SVG,svg}'], 'dist/', {
+  const files = await imagemin(['src/'], 'dist/', {
     plugins: [
       mozjpeg({progressive: true, quality: 85}),
       pngquant({speed: 6, quality: 80}),
