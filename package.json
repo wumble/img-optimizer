@@ -12,9 +12,9 @@
   "license": "ISC",
   "dependencies": {
     "del": "^3.0.0",
-    "imagemin": "^6.0.0",
+    "imagemin": "^6.1.0",
     "imagemin-mozjpeg": "^8.0.0",
-    "imagemin-pngquant": "^6.0.0",
+    "imagemin-pngquant": "^7.0.0",
     "imagemin-svgo": "^7.0.0"
   }
 }
