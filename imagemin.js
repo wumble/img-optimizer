@@ -18,28 +18,35 @@ const readFolders = (dir) => {
   });
 }
 
-(async () => {
-  await del('./dist/**/*');
-  const files = [];
-  const folders = await readFolders('src/');
+const minimize = async (folder) => {
+  const distFolder = folder.replace('./src/', '').replace('./src', '');
+  await imagemin([`${folder}/*.(jpg|JPG|jpeg|JPEG|png|PNG|svg|SVG)`], `dist/${distFolder}`, {
+    plugins: [
+      mozjpeg({progressive: true, quality: 85}),
+      pngquant({speed: 6, quality: [0.75, 0.90]}),
+      svgo({
+        plugins: [
+          {removeViewBox: false},
+          {removeDimensions: true},
+          {removeStyleElement: true}
+        ]
+      })
+    ]
+  });
+}
+
+const imageminFolder = async (src) => {
+  const folders = await readFolders(`${src}/`);
 
   folders.forEach(async (folder) => {
-    const distFolder = folder.replace('src/', '');
-    const tempFiles = await imagemin([folder], `dist/${distFolder}`, {
-      plugins: [
-        mozjpeg({progressive: true, quality: 85}),
-        pngquant({speed: 6, quality: [0.75, 0.90]}),
-        svgo({
-          plugins: [
-            {removeViewBox: false},
-            {removeDimensions: true},
-            {removeStyleElement: true}
-          ]
-        })
-      ]
-    });
-
-    files.push(tempFiles);
+    await minimize(folder);
+    imageminFolder(folder);
   });
-  // console.log(tempFiles);
+}
+
+(async () => {
+  console.info('delete dist');
+  await del('./dist/**/*');
+  minimize('./src');
+  imageminFolder('./src');
 })();
