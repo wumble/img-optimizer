@@ -34,6 +34,7 @@ const minimize = async (folder) => {
       })
     ]
   });
+  console.info(`optimized ${folder}`);
 }
 
 const imageminFolder = async (src) => {
