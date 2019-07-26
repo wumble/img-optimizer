@@ -20,7 +20,8 @@ const readFolders = (dir) => {
 
 const minimize = async (folder) => {
   const distFolder = folder.replace('./src/', '').replace('./src', '');
-  await imagemin([`${folder}/*.(jpg|JPG|jpeg|JPEG|png|PNG|svg|SVG)`], `dist/${distFolder}`, {
+  await imagemin([`${folder}/*.(jpg|JPG|jpeg|JPEG|png|PNG|svg|SVG)`], {
+    destination: `dist/${distFolder}`,
     plugins: [
       mozjpeg({progressive: true, quality: 85}),
       pngquant({speed: 6, quality: [0.75, 0.90]}),
